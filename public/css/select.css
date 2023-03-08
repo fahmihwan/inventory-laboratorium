@@ -1,0 +1,23 @@
+.select-container {
+    position: relative;
+}
+.select-dropdown {
+    background-color: white;
+    border: 1px solid rgb(217, 217, 217);
+    padding: 5px;
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+    /* display: none; */
+}
+
+.select-dropdown-option {
+    padding: 2px;
+}
+.select-dropdown-option:hover {
+    background-color: #284fc2;
+    color: white;
+}
+table#table-info-detail th {
+    width: 140px;
+}
