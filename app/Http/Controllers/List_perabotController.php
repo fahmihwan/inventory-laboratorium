@@ -10,8 +10,8 @@ class List_perabotController extends Controller
 {
     public function index()
     {
-        $data = Detail_transaksi_barang_masuk::with(['perabot.kategori:id,nama', 'ruangan:id,nama'])->latest()->paginate(5);
-        // return $data;
+        $data = Detail_transaksi_barang_masuk::with(['perabot.kategori:id,nama', 'ruangan:id,nama'])->where('ruangan_id', auth()->user()->ruangan_id)->latest()->paginate(5);
+
         return Inertia::render('List_perabot/Index', [
             'datas' => $data
         ]);

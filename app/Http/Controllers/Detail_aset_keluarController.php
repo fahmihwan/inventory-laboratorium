@@ -20,11 +20,8 @@ class Detail_aset_keluarController extends Controller
             'detail_transaksi_barang_masuk.perabot.kategori:id,nama',
         ])->latest()->get();
 
-        // with('ruangan:id,nama')->first
-
         return Inertia::render('Detail_transaksi_keluar/List_and_create', [
-            'transaksi_barang_keluar' => $transaksi_barang_keluar,
-            'detail_aset_masuks' => Detail_transaksi_barang_masuk::select(['id', 'kode_perabot'])->where('ruangan_id', auth()->user()->ruangan_id)->latest()->get(),
+            'transaksi_barang_keluar' => Transaksi_barang_keluar::with('ruangan:id,nama')->where('id', $transaksi_barang_keluar->id)->first(),
             'detail_transaksi_barang_keluars' => $detail_transaksi_barang_keluar
         ]);
     }
@@ -84,10 +81,20 @@ class Detail_aset_keluarController extends Controller
 
     public function get_detail_aset_masuk_ajax($kode)
     {
-
         $data = Detail_transaksi_barang_masuk::with(['perabot.kategori:id,nama', 'ruangan:id,nama'])
             ->where('kode_perabot', $kode)
             ->first();
+        return $data;
+    }
+
+    public function search_kode_detail_aset_masuk_ajax($id)
+    {
+        $data = Detail_transaksi_barang_masuk::select(['id', 'kode_perabot'])
+            ->where([
+                ['ruangan_id', auth()->user()->ruangan_id],
+                ['kode_perabot', 'LIKE', '%' . $id . '%']
+            ])
+            ->latest()->get();
         return $data;
     }
 }

@@ -82,6 +82,7 @@ Route::middleware(['auth',])->group(function () {
     Route::delete('/detail_transaksi_keluar/{id}', [Detail_aset_keluarController::class, 'destroy']);
     // get ajax
     Route::get('/detail_transaksi_keluar/{id}/get', [Detail_aset_keluarController::class, 'get_detail_aset_masuk_ajax']);
+    Route::get('/detail_transaksi_keluar/{id}/search', [Detail_aset_keluarController::class, 'search_kode_detail_aset_masuk_ajax']);
 
     Route::get('/laporan/list-perabot', [Report_controller::class, 'report_perabot']);
     Route::get('/laporan/list-adk', [Report_controller::class, 'report_adk']);

@@ -10,83 +10,71 @@ import {
 
 import "./../../../../public/css/select.css";
 const List_and_create = (props) => {
-    console.log(props);
-    const [getFromDB, setGetFromDB] = useState([]);
     const [searchKode, setSearchKode] = useState("");
-    const [focusSearch, setFocusSearch] = useState(false);
-    const [dataFilter, setDataFilter] = useState();
-
+    const [listKode, setListKode] = useState([]);
     const dropdownRef = useRef();
-
-    // get data
-    useEffect(() => {
-        dropdownRef.current.classList.add("d-none");
-        setGetFromDB(props.detail_aset_masuks);
-        setDataFilter(props.detail_aset_masuks);
-    }, []);
-
-    useEffect(() => {
-        if (focusSearch) {
-            // filter data
-            // let dataa = getFromDB?.filter((d) =>
-            let dataa = props.detail_aset_masuks?.filter((d) =>
-                d.kode_perabot.toLowerCase().includes(searchKode.toLowerCase())
-            );
-            setDataFilter(dataa);
-            dropdownRef.current.classList.remove("d-none");
-        }
-        // let dataIsExist = getFromDB?.filter(
-        let dataIsExist = props.detail_aset_masuks?.filter(
-            (d) => d.kode_perabot.toLowerCase() === searchKode.toLowerCase()
-        );
-
-        if (dataIsExist.length !== 0) {
-            get_detail_ajax(searchKode);
-        }
-    }, [focusSearch, searchKode]);
+    const [detail_ajax, setDetail_ajax] = useState([]);
+    const [focusSearch, setFocusSearch] = useState(false);
 
     const handleSelected = (kode) => {
         setSearchKode(kode);
         dropdownRef.current.classList.add("d-none");
     };
 
-    const [detail_ajax, setDetail_ajax] = useState([]);
+    const getDatas = async (link) => {
+        const response = await fetch(`/detail_transaksi_keluar/${link}/search`);
+        const data = await response.json();
+        await setListKode(data);
+        if (data.length == 1) {
+            get_detail_ajax(data[0].kode_perabot);
+        }
+    };
+
+    useEffect(() => {
+        if (focusSearch) {
+            dropdownRef.current.classList.remove("d-none");
+        }
+        let search = searchKode.length !== 0 ? searchKode : "lb";
+        getDatas(search);
+    }, [searchKode, focusSearch]);
+
     const get_detail_ajax = async (kode) => {
         await axios
             .get(`/detail_transaksi_keluar/${kode}/get`)
             .then(function (response) {
-                // handle success
                 setDetail_ajax(response.data);
             })
             .catch(function (error) {
-                // handle error
                 console.log(error);
             });
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        Inertia.post("/detail_transaksi_keluar", {
+        await Inertia.post("/detail_transaksi_keluar", {
             transaksi_barang_keluar_id: props.transaksi_barang_keluar.id,
             kode_perabot: searchKode,
         });
+        await getDatas("lb");
+        setSearchKode("");
     };
     const handleDelete = async (e, id) => {
         e.preventDefault();
         if (confirm("apakah anda yakin ingin menghapus?")) {
             await Inertia.delete(`/detail_transaksi_keluar/${id}`);
-            await setDataFilter(props.detail_aset_masuks);
+            await getDatas("lb");
             setSearchKode("");
         }
+        dropdownRef.current.classList.add("d-none");
     };
 
     return (
         <AuthenticatedLayout auth={props.auth}>
             <div className="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 className="h3 mb-0 text-gray-800">
-                    Tambah Detail Tranasksi Keluar
+                    Tambah Detail Transaksi Keluar
                 </h1>
                 <Link
-                    href="/transaksi_aset_masuk"
+                    href="/transaksi_aset_keluar"
                     className="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
                 >
                     kembali
@@ -105,15 +93,13 @@ const List_and_create = (props) => {
                             className="needs-validation"
                         >
                             <SelecSearchEl
-                                searchKode={searchKode}
                                 setFocusSearch={setFocusSearch}
+                                searchKode={searchKode}
                                 setSearchKode={setSearchKode}
-                                // dataFilter={dataFilter}
-                                dataFilter={props.detail_aset_masuks}
                                 dropdownRef={dropdownRef}
                                 handleSelected={handleSelected}
+                                listKode={listKode}
                             />
-
                             {detail_ajax.length !== 0 && (
                                 <CardDetailAjax detail_ajax={detail_ajax} />
                             )}
@@ -156,7 +142,6 @@ const List_and_create = (props) => {
                                     <th>spesifikasi</th>
                                     <th>kondisi</th>
                                     <th>ruangan</th>
-
                                     <th>action</th>
                                 </tr>
                             </thead>
@@ -222,8 +207,6 @@ const List_and_create = (props) => {
                                 )}
                             </tbody>
                         </table>
-
-                        {/* <ModalEdit kondisi={kondisi} /> */}
                     </div>
                 </div>
             </div>
@@ -235,11 +218,11 @@ export default List_and_create;
 
 const SelecSearchEl = ({
     searchKode,
-    setFocusSearch,
     setSearchKode,
-    dataFilter,
     dropdownRef,
     handleSelected,
+    listKode,
+    setFocusSearch,
 }) => {
     return (
         <div className="form-group">
@@ -248,17 +231,17 @@ const SelecSearchEl = ({
                 <input
                     required
                     type="text"
-                    value={searchKode}
                     onFocus={() => setFocusSearch(true)}
                     onBlur={() => setFocusSearch(false)}
+                    value={searchKode}
                     onChange={(e) => setSearchKode(e.target.value)}
                     className="form-control "
                     placeholder="kode perabot"
                 />
 
-                <div className={`select-dropdown`} ref={dropdownRef}>
-                    {dataFilter?.length != 0 ? (
-                        dataFilter?.map((d, i) => (
+                <div className={`select-dropdown d-none`} ref={dropdownRef}>
+                    {listKode?.length != 0 &&
+                        listKode?.map((d, i) => (
                             <div
                                 key={i}
                                 className="select-dropdown-option"
@@ -266,10 +249,7 @@ const SelecSearchEl = ({
                             >
                                 {d.kode_perabot}
                             </div>
-                        ))
-                    ) : (
-                        <div className="text-danger">data tidak ditemukan</div>
-                    )}
+                        ))}
                 </div>
             </div>
         </div>
@@ -288,6 +268,11 @@ const NoteTransaksi = ({ transaksi_barang_keluar }) => {
                 <tr>
                     <th>tanggal_keluar</th>
                     <td>: {transaksi_barang_keluar.tanggal_keluar}</td>
+                </tr>
+
+                <tr>
+                    <th>ruangan</th>
+                    <td>: {transaksi_barang_keluar.ruangan.nama}</td>
                 </tr>
                 <tr>
                     <th>keterangan</th>

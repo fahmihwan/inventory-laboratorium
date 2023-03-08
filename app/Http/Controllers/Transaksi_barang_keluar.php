@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Detail_transaksi_barang_keluar;
+use App\Models\Detail_transaksi_barang_masuk;
 use App\Models\Transaksi_barang_keluar as ModelsTransaksi_barang_keluar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class Transaksi_barang_keluar extends Controller
@@ -76,7 +79,19 @@ class Transaksi_barang_keluar extends Controller
     }
     public function destroy($id)
     {
-        ModelsTransaksi_barang_keluar::destroy($id);
+        try {
+            DB::beginTransaction();
+            $dbk = Detail_transaksi_barang_keluar::where('transaksi_barang_keluar_id', $id)->get();
+            foreach ($dbk as $dtbmid) {
+                Detail_transaksi_barang_masuk::where('id', $dtbmid['detail_transaksi_barang_masuk_id'])->forceDelete();
+            }
+            Detail_transaksi_barang_keluar::where('transaksi_barang_keluar_id', $id)->delete();
+            ModelsTransaksi_barang_keluar::where('id', $id)->delete();
+            DB::commit();
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error_message', $th->getMessage());
+        }
+
         return redirect()->back();
     }
 }
