@@ -1,6 +1,8 @@
 import { Link } from "@inertiajs/inertia-react";
 import React, { useState } from "react";
-
+// import CartIcon from '../images/CartIcon.png';
+// import CartIcon from './img/logo1.png';
+import LogoInstansi from "../../../public/img/logo1.png";
 export const Sidebar = ({ auth }) => {
     return (
         <>
@@ -8,11 +10,11 @@ export const Sidebar = ({ auth }) => {
                 className="navbar-nav bg-gradient-success sidebar sidebar-dark accordion"
                 id="accordionSidebar"
             >
-                <LogoDashboard />
+                <LogoDashboard LogoInstansi={LogoInstansi} />
 
                 <hr className="sidebar-divider my-0" />
                 {/* DASHBOARD */}
-                <li className={`nav-item  `}>
+                <li className={`nav-item`}>
                     <Link className="nav-link" href="/dashboard">
                         <i className="fas fa-fw fa-tachometer-alt" />
                         <span>Dashboard</span>
@@ -32,7 +34,7 @@ export const Sidebar = ({ auth }) => {
                                 aria-expanded="true"
                                 aria-controls="collapseUtilities"
                             >
-                                <i className="fas fa-fw fa-wrench"></i>
+                                <i className="fas fa-solid fa-lock"></i>
                                 <span>Master Data</span>
                             </a>
 
@@ -60,7 +62,7 @@ export const Sidebar = ({ auth }) => {
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link" href="/perabot">
-                                <i className="fas fa-fw fa-tachometer-alt" />
+                                <i className="fas fa-solid fa-warehouse"></i>
                                 <span>Perabot / Alat</span>
                             </Link>
                         </li>
@@ -72,7 +74,7 @@ export const Sidebar = ({ auth }) => {
                     <>
                         <li className="nav-item">
                             <Link className="nav-link" href="/list_perabot">
-                                <i className="fas fa-fw fa-tachometer-alt" />
+                                <i className="fas fa-solid fa-warehouse"></i>
                                 <span>List Perabot / Alat</span>
                             </Link>
                         </li>
@@ -82,14 +84,14 @@ export const Sidebar = ({ auth }) => {
                                 className="nav-link"
                                 href="/transaksi_aset_masuk"
                             >
-                                <i className="fas fa-fw fa-tachometer-alt" />
+                                <i className="fas fa-solid fa-dolly"></i>
                                 <span>Aset Masuk</span>
                             </Link>
                             <Link
                                 className="nav-link"
                                 href="/transaksi_aset_keluar"
                             >
-                                <i className="fas fa-fw fa-tachometer-alt" />
+                                <i className="fas fa-solid fa-dumpster"></i>
                                 <span>Aset Keluar</span>
                             </Link>
                         </li>
@@ -110,7 +112,8 @@ export const Sidebar = ({ auth }) => {
                                 aria-expanded="true"
                                 aria-controls="laporan"
                             >
-                                <i className="fas fa-fw fa-wrench"></i>
+                                {/* <i className="fas fa-fw fa-wrench"></i> */}
+                                <i className="fas fa-solid fa-clipboard"></i>
                                 <span>Laporan</span>
                             </a>
 
@@ -129,9 +132,15 @@ export const Sidebar = ({ auth }) => {
                                     </Link>
                                     <Link
                                         className="collapse-item"
-                                        href="/laporan/list-adk"
+                                        href="/laporan/list-tkj"
                                     >
-                                        Lab ADk
+                                        Lab TKJ
+                                    </Link>
+                                    <Link
+                                        className="collapse-item"
+                                        href="/laporan/list-akl"
+                                    >
+                                        Lab AKL
                                     </Link>
                                     <Link
                                         className="collapse-item"
@@ -163,16 +172,15 @@ export const Sidebar = ({ auth }) => {
     );
 };
 
-const LogoDashboard = (second) => {
+const LogoDashboard = ({ LogoInstansi }) => {
     return (
         <Link
             href="/dashboard"
             className="sidebar-brand d-flex align-items-center justify-content-center"
         >
-            <img src="./img/logo1.png" alt="" style={{ width: "50px" }} />
-            {/* <div className="sidebar-brand-icon rotate-n-15">
-                <i className="fas fa-laugh-wink" />
-            </div> */}
+            {/* <img src="./img/logo1.png" alt="" style={{ width: "50px" }} /> */}
+            <img src={LogoInstansi} alt="" style={{ width: "50px" }} />
+
             <div className="sidebar-brand-text mx-3">SB Admin</div>
         </Link>
     );

@@ -3,7 +3,6 @@ import { Link } from "@inertiajs/inertia-react";
 import React from "react";
 import { DeleteButton, EditButton } from "../../Components/ActionButtons";
 import { Pagination } from "../../Components/Pagination";
-
 import { AuthenticatedLayout } from "../../Layouts/AuthenticatedLayout";
 
 const Index = (props) => {

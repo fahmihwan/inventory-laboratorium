@@ -1,11 +1,12 @@
 import React from "react";
+import { Pagination } from "../../Components/Pagination";
 import { AuthenticatedLayout } from "../../Layouts/AuthenticatedLayout";
 
-const Report_perabot = (props) => {
+const Report_akl = (props) => {
     return (
         <AuthenticatedLayout auth={props.auth}>
             <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 className="h3 mb-0 text-gray-800">Semua Aset</h1>
+                <h1 className="h3 mb-0 text-gray-800">Laporan AKL</h1>
             </div>
             <div className="card shadow mb-4">
                 <div className="card-header py-3">
@@ -46,6 +47,7 @@ const Report_perabot = (props) => {
                                 })}
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </div>
@@ -53,4 +55,4 @@ const Report_perabot = (props) => {
     );
 };
 
-export default Report_perabot;
+export default Report_akl;

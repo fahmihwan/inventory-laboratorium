@@ -15,6 +15,7 @@ const List_and_create = (props) => {
     const dropdownRef = useRef();
     const [detail_ajax, setDetail_ajax] = useState([]);
     const [focusSearch, setFocusSearch] = useState(false);
+    const [radioValue, setRadioValue] = useState("");
 
     const handleSelected = (kode) => {
         setSearchKode(kode);
@@ -42,6 +43,7 @@ const List_and_create = (props) => {
         await axios
             .get(`/detail_transaksi_keluar/${kode}/get`)
             .then(function (response) {
+                setRadioValue(response.data.kondisi);
                 setDetail_ajax(response.data);
             })
             .catch(function (error) {
@@ -53,10 +55,12 @@ const List_and_create = (props) => {
         await Inertia.post("/detail_transaksi_keluar", {
             transaksi_barang_keluar_id: props.transaksi_barang_keluar.id,
             kode_perabot: searchKode,
+            kondisi: radioValue,
         });
         await getDatas("lb");
         setSearchKode("");
     };
+
     const handleDelete = async (e, id) => {
         e.preventDefault();
         if (confirm("apakah anda yakin ingin menghapus?")) {
@@ -101,7 +105,33 @@ const List_and_create = (props) => {
                                 listKode={listKode}
                             />
                             {detail_ajax.length !== 0 && (
-                                <CardDetailAjax detail_ajax={detail_ajax} />
+                                <>
+                                    <CardDetailAjax detail_ajax={detail_ajax} />
+                                    <div className="mb-5 ">
+                                        <label>kondisi</label>
+                                        <RadioButtonEl
+                                            id="customeRadio1"
+                                            name="kondisi"
+                                            value="baik"
+                                            radioValue={radioValue}
+                                            setRadioValue={setRadioValue}
+                                        />
+                                        <RadioButtonEl
+                                            id="customeRadio2"
+                                            name="kondisi"
+                                            value="rusak ringan"
+                                            radioValue={radioValue}
+                                            setRadioValue={setRadioValue}
+                                        />
+                                        <RadioButtonEl
+                                            id="customeRadio3"
+                                            name="kondisi"
+                                            value="rusak berat"
+                                            radioValue={radioValue}
+                                            setRadioValue={setRadioValue}
+                                        />
+                                    </div>
+                                </>
                             )}
                             <button type="submit" className="btn btn-primary">
                                 Tambah Data
@@ -306,6 +336,25 @@ const CardDetailAjax = ({ detail_ajax }) => {
                     </tr>
                 </tbody>
             </table>
+        </div>
+    );
+};
+
+const RadioButtonEl = ({ id, name, value, radioValue, setRadioValue }) => {
+    return (
+        <div className="custom-control custom-radio">
+            <input
+                type="radio"
+                id={id}
+                name={name}
+                className="custom-control-input"
+                value={value}
+                onChange={(e) => setRadioValue(e.target.value)}
+                checked={radioValue == value}
+            />
+            <label className="custom-control-label" htmlFor={id}>
+                {value}
+            </label>
         </div>
     );
 };

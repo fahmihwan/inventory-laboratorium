@@ -2,11 +2,11 @@ import React from "react";
 import { Pagination } from "../../Components/Pagination";
 import { AuthenticatedLayout } from "../../Layouts/AuthenticatedLayout";
 
-const Report_perabot = (props) => {
+const Report_ap = (props) => {
     return (
         <AuthenticatedLayout auth={props.auth}>
             <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 className="h3 mb-0 text-gray-800">Laporan ap</h1>
+                <h1 className="h3 mb-0 text-gray-800">Laporan AP</h1>
             </div>
             <div className="card shadow mb-4">
                 <div className="card-header py-3">
@@ -16,57 +16,37 @@ const Report_perabot = (props) => {
                 </div>
                 <div className="card-body">
                     <div className="table-responsive">
-                        <table
-                            className="table table-bordered"
-                            id="dataTable"
-                            width="100%"
-                            cellSpacing={0}
-                        >
-                            <thead>
+                        <table className="table table-bordered " id="dataTable">
+                            <thead className="text-center">
                                 <tr>
-                                    <th>no</th>
-                                    <th>kode</th>
-                                    <th>alat</th>
-                                    <th>kategori</th>
-                                    <th>spesifikasi</th>
-                                    <th>kondisi</th>
-                                    <th>ruangan</th>
-                                    <th>created_at</th>
+                                    <td rowSpan="2">No</td>
+                                    <td rowSpan="2">Nama Alat / Perabot</td>
+                                    <td rowSpan="2">Spesifikasi</td>
+                                    <td colSpan="3">jumlah</td>
+                                    <td rowSpan="2">jumlah</td>
+                                </tr>
+                                <tr>
+                                    <td>baik</td>
+                                    <td>rusak ringan</td>
+                                    <td>rusak berat</td>
                                 </tr>
                             </thead>
                             <tbody>
-                                {/* {props?.datas?.data?.map((d, i) => {
+                                {props?.datas?.map((d, i) => {
                                     return (
                                         <tr key={i}>
-                                            <td>{i + props.datas.from} </td>
-                                            <td>{d.kode_perabot}</td>
-                                            <td>{d.perabot.nama}</td>
-                                            <td>{d.perabot.kategori.nama}</td>
-                                            <td>{d.perabot.spesifikasi}</td>
-                                            <td>{d.kondisi}</td>
-                                            <td>{d.ruangan.nama}</td>
-                                            <td>{d.created_at}</td>
+                                            <td>{i + 1}</td>
+                                            <td>{d.nama}</td>
+                                            <td>{d.spesifikasi}</td>
+                                            <td>{d.count_baik}</td>
+                                            <td>{d.count_rusak_ringan}</td>
+                                            <td>{d.count_rusak_berat}</td>
+                                            <td>{d.count_total}</td>
                                         </tr>
                                     );
-                                })} */}
+                                })}
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>no</th>
-                                    <th>kode</th>
-                                    <th>kategori</th>
-                                    <th>alat</th>
-                                    <th>spesifikasi</th>
-                                    <th>kondisi</th>
-                                    <th>ruangan</th>
-                                    <th>created_at</th>
-                                </tr>
-                            </tfoot>
                         </table>
-                        {/* <Pagination
-                            totals={props.datas.total}
-                            links={props.datas.links}
-                        /> */}
                     </div>
                 </div>
             </div>
@@ -74,4 +54,4 @@ const Report_perabot = (props) => {
     );
 };
 
-export default Report_perabot;
+export default Report_ap;

@@ -20,4 +20,8 @@ class Transaksi_barang_masuk extends Model
     {
         return $this->belongsTo(Ruangan::class);
     }
+    public function detail_transaksi_barang_masuks()
+    {
+        return $this->hasMany(Detail_transaksi_barang_masuk::class);
+    }
 }

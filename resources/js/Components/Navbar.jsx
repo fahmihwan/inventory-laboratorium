@@ -1,6 +1,8 @@
 import { Inertia } from "@inertiajs/inertia";
 import { Link } from "@inertiajs/inertia-react";
 import React from "react";
+// import UserLogo from 'img/undraw_profile.svg'
+import UserLogo from "../../../public/img/undraw_profile.svg";
 
 export const Navbar = ({ auth }) => {
     const handleLogout = (e) => {
@@ -39,7 +41,8 @@ export const Navbar = ({ auth }) => {
                             {/* /account/logout */}
                             <img
                                 className="img-profile rounded-circle"
-                                src="img/undraw_profile.svg"
+                                // src="img/undraw_profile.svg"
+                                src={UserLogo}
                             />
                         </a>
                         {/* Dropdown - User Information */}

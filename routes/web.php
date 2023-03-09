@@ -85,7 +85,8 @@ Route::middleware(['auth',])->group(function () {
     Route::get('/detail_transaksi_keluar/{id}/search', [Detail_aset_keluarController::class, 'search_kode_detail_aset_masuk_ajax']);
 
     Route::get('/laporan/list-perabot', [Report_controller::class, 'report_perabot']);
-    Route::get('/laporan/list-adk', [Report_controller::class, 'report_adk']);
+    Route::get('/laporan/list-tkj', [Report_controller::class, 'report_tkj']);
+    Route::get('/laporan/list-akl', [Report_controller::class, 'report_akl']);
     Route::get('/laporan/list-ap', [Report_controller::class, 'report_ap']);
     Route::get('/laporan/list-bpd', [Report_controller::class, 'report_bpd']);
 });

@@ -14,11 +14,13 @@ class Detail_aset_keluarController extends Controller
 {
     public function list_and_create(Transaksi_barang_keluar $transaksi_barang_keluar)
     {
-        $detail_transaksi_barang_keluar = Detail_transaksi_barang_keluar::select(['id', 'detail_transaksi_barang_masuk_id'])->with([
+        $detail_transaksi_barang_keluar = Detail_transaksi_barang_keluar::with([
             'detail_transaksi_barang_masuk.ruangan:id,nama',
             'detail_transaksi_barang_masuk.perabot:id,nama,spesifikasi,kategori_id',
             'detail_transaksi_barang_masuk.perabot.kategori:id,nama',
-        ])->latest()->get();
+        ])
+            ->where('transaksi_barang_keluar_id', $transaksi_barang_keluar->id)
+            ->latest()->get();
 
         return Inertia::render('Detail_transaksi_keluar/List_and_create', [
             'transaksi_barang_keluar' => Transaksi_barang_keluar::with('ruangan:id,nama')->where('id', $transaksi_barang_keluar->id)->first(),
@@ -51,6 +53,10 @@ class Detail_aset_keluarController extends Controller
             ]);
 
             // detail detail tranasksi masuk
+            Detail_transaksi_barang_masuk::where('id', $detail_barang_masuk->first()->id)->update([
+                'kondisi' => $request->kondisi
+            ]);
+
             Detail_transaksi_barang_masuk::destroy($detail_barang_masuk->first()->id);
 
             DB::commit();

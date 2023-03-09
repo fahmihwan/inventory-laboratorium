@@ -4,8 +4,7 @@ import React from "react";
 export const EditButton = ({ href, title = "Edit" }) => {
     return (
         <Link href={href} className="btn btn-sm btn-warning mr-2">
-            {/* Edit */}
-            {title}
+            <i className="fas fa-edit"></i>
         </Link>
     );
 };
@@ -16,7 +15,7 @@ export const DeleteButton = ({ handleDelete, dataId }) => {
             onClick={(e) => handleDelete(e, dataId)}
             className="btn btn-sm btn-danger"
         >
-            Delete
+            <i className="fas fa-solid fa-trash"></i>
         </button>
     );
 };

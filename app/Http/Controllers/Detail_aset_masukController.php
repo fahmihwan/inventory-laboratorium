@@ -14,14 +14,12 @@ use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 
-
 class Detail_aset_masukController extends Controller
 {
     public function list_and_create(Transaksi_barang_masuk $transaksi_barang_masuk)
     {
 
         $ruangans = Ruangan::where('id', auth()->user()->ruangan_id)->first();
-        // return $ruangans;
         $perabots = Perabot::latest()->get();
 
         try {
@@ -44,7 +42,8 @@ class Detail_aset_masukController extends Controller
             'ruangan:id,nama'
         ])
             // ->where('transaksi_barang_masuk_id', 1)->latest()->get();
-            ->where('transaksi_barang_masuk_id', $transaksi_barang_masuk->id)->latest()->get();
+            ->where('transaksi_barang_masuk_id', $transaksi_barang_masuk->id)->withTrashed()->latest()->get();
+
 
 
         return Inertia::render('Detail_transaksi_masuk/List_and_create', [
