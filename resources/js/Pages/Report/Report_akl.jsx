@@ -1,7 +1,7 @@
+import { Link } from "@inertiajs/inertia-react";
 import React from "react";
-import { Pagination } from "../../Components/Pagination";
 import { AuthenticatedLayout } from "../../Layouts/AuthenticatedLayout";
-
+import { ExportBlob } from "./ExportBlob";
 const Report_akl = (props) => {
     return (
         <AuthenticatedLayout auth={props.auth}>
@@ -9,10 +9,19 @@ const Report_akl = (props) => {
                 <h1 className="h3 mb-0 text-gray-800">Laporan AKL</h1>
             </div>
             <div className="card shadow mb-4">
-                <div className="card-header py-3">
+                <div className="card-header py-3 d-flex justify-content-between">
                     <h6 className="m-0 font-weight-bold text-primary">
                         List Perabot
                     </h6>
+                    <Link
+                        onClick={() =>
+                            ExportBlob(`/print/list-akl`, "laporan_akl.pdf")
+                        }
+                        className="m-0  text-primary"
+                    >
+                        <i className="fas fa-solid fa-file-pdf mr-2"></i>Export
+                        PDF
+                    </Link>
                 </div>
                 <div className="card-body">
                     <div className="table-responsive">
@@ -47,7 +56,6 @@ const Report_akl = (props) => {
                                 })}
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>

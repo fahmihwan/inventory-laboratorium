@@ -128,7 +128,7 @@ export const Sidebar = ({ auth }) => {
                                         className="collapse-item"
                                         href="/laporan/list-perabot"
                                     >
-                                        Perabot / Alat
+                                        Semua Aset
                                     </Link>
                                     <Link
                                         className="collapse-item"

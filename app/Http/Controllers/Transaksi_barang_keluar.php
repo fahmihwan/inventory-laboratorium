@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\KodeHelper;
 use App\Models\Detail_transaksi_barang_keluar;
 use App\Models\Detail_transaksi_barang_masuk;
 use App\Models\Transaksi_barang_keluar as ModelsTransaksi_barang_keluar;
@@ -23,26 +24,14 @@ class Transaksi_barang_keluar extends Controller
     {
         $get_kode = ModelsTransaksi_barang_keluar::orderBy('id', 'desc');
         if ($get_kode->exists()) {
-            $no_referensi = $this->create_no_referens($get_kode->first()->kode_transaksi_keluar);
+            $no_referensi = KodeHelper::transaksi_keluar($get_kode->first()->kode_transaksi_keluar);
         } else {
-            $no_referensi = $this->create_no_referens(null);
+            $no_referensi = KodeHelper::transaksi_keluar(null);
         }
+
         return Inertia::render('Transaksi_keluar/Create', [
             'no_referensi' => $no_referensi
         ]);
-    }
-    private function create_no_referens($select_kode_ref)
-    {
-        if ($select_kode_ref == null) {
-            $nota = "TKL" . date('Ymd') . "001";
-        } else if (substr($select_kode_ref, 9, 2) != date('d')) {
-            $nota = "TKL" . date('Ymd') . "001";
-        } else {
-            $cut = (int)substr($select_kode_ref, 11, 3);
-            $number = str_pad($cut + 1, 3, "0", STR_PAD_LEFT);;
-            $nota = "TKL" . date('Ymd') . $number;
-        }
-        return $nota;
     }
 
     public function store(Request $request)

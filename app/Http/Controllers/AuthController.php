@@ -75,6 +75,34 @@ class AuthController extends Controller
         return redirect('/account');
     }
 
+    public function edit(User $user)
+    {
+        $user = User::with('ruangan')->where('id', $user->id)->first();
+        $ruangans = Ruangan::latest()->get();
+        return Inertia::render('Auth/Edit', [
+            'ruangans' => $ruangans,
+            'user' => $user
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+
+        $rules = [
+            'nama' => 'required',
+            'username' => 'required'
+        ];
+        if ($request->changePassword) {
+            $rules['password'] = 'required';
+        }
+        $validated = $request->validate($rules);
+        if ($request->changePassword) {
+            $validated['password'] = Hash::make($request->password);
+        }
+        User::where('id', $id)->update($validated);
+        return redirect('/account');
+    }
+
     public function destroy($id)
     {
         User::destroy($id);

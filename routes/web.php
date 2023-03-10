@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Detail_aset_keluarController;
 use App\Http\Controllers\Detail_aset_masukController;
+use App\Http\Controllers\Export_PDFController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\List_perabotController;
 use App\Http\Controllers\PerabotController;
@@ -39,6 +40,8 @@ Route::middleware(['auth',])->group(function () {
     Route::get('/account', [AuthController::class, 'index']);
     Route::get('/account/create', [AuthController::class, 'create']);
     Route::post('/account', [AuthController::class, 'store']);
+    Route::get('/account/{user}/edit', [AuthController::class, 'edit']);
+    Route::put('/account/{user}', [AuthController::class, 'update']);
     Route::delete('/account/{id}', [AuthController::class, 'destroy']);
     Route::post('/account/logout', [AuthController::class, 'logout']);
 
@@ -89,6 +92,12 @@ Route::middleware(['auth',])->group(function () {
     Route::get('/laporan/list-akl', [Report_controller::class, 'report_akl']);
     Route::get('/laporan/list-ap', [Report_controller::class, 'report_ap']);
     Route::get('/laporan/list-bpd', [Report_controller::class, 'report_bpd']);
+
+    Route::get('/print/list-perabot', [Export_PDFController::class, 'print_perabot']);
+    Route::get('/print/list-tkj', [Export_PDFController::class, 'print_tkj']);
+    Route::get('/print/list-akl', [Export_PDFController::class, 'print_akl']);
+    Route::get('/print/list-ap', [Export_PDFController::class, 'print_ap']);
+    Route::get('/print/list-bpd', [Export_PDFController::class, 'print_bpd']);
 });
 
 

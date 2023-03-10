@@ -32,13 +32,13 @@ class DashboardController extends Controller
         foreach ($list_perabot as $data) {
             $arr[] = [
                 'name' => $data['nama'],
+                'spek' => $data['spesifikasi'],
                 'total' => $data['count_total'],
                 'baik' => $data['count_baik'],
                 'rusak_ringan' => $data['count_rusak_ringan'],
                 'rusak_berat' => $data['count_rusak_berat'],
             ];
         }
-
 
         return Inertia::render('Dashboard', [
             'list_perabot' => $arr

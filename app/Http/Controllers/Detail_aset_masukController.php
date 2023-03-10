@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\KodeHelper;
 use App\Models\Detail_transaksi_barang_masuk;
 use App\Models\Perabot;
 use App\Models\Ruangan;
@@ -12,7 +13,7 @@ use ErrorException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
-
+use PHPUnit\Framework\MockObject\ReturnValueNotConfiguredException;
 
 class Detail_aset_masukController extends Controller
 {
@@ -41,7 +42,6 @@ class Detail_aset_masukController extends Controller
             'perabot:id,nama',
             'ruangan:id,nama'
         ])
-            // ->where('transaksi_barang_masuk_id', 1)->latest()->get();
             ->where('transaksi_barang_masuk_id', $transaksi_barang_masuk->id)->withTrashed()->latest()->get();
 
 
@@ -54,30 +54,18 @@ class Detail_aset_masukController extends Controller
         ]);
     }
 
-    private function create_no_referens($select_kode_ref)
-    {
-        if ($select_kode_ref == null) {
-            $nota = "LB" . date('Ymd') . "001";
-            // dd($nota);
-        } else if (substr($select_kode_ref, 8, 2) != date('d')) {
-            $nota = "LB" . date('Ymd') . "001";
-        } else {
-            $cut = (int) substr($select_kode_ref, 10, 3);
-            $number = str_pad($cut + 1, 3, "0", STR_PAD_LEFT);
-            $nota = "LB" . date('Ymd') . $number;
-        }
-        return $nota;
-    }
 
     public function store(Request $request)
     {
 
-        $detail_aset_masuk = Detail_transaksi_barang_masuk::orderBy('id', 'DESC');
+        $detail_aset_masuk = Detail_transaksi_barang_masuk::withTrashed()->orderBy('id', 'DESC');
+
         if ($detail_aset_masuk->exists()) {
-            $no_referensi = $this->create_no_referens($detail_aset_masuk->first()->kode_perabot);
+            $no_referensi = KodeHelper::perabot($detail_aset_masuk->first()->kode_perabot);
         } else {
-            $no_referensi = $this->create_no_referens(null);
+            $no_referensi = KodeHelper::perabot(null);
         }
+
         try {
             DB::beginTransaction();
             $data =  $request->validate([

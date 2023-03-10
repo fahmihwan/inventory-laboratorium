@@ -6,13 +6,15 @@ import { Pagination } from "../../Components/Pagination";
 import { Inertia } from "@inertiajs/inertia";
 
 const Index = (props) => {
+    // console.log(props.auth.user.id);
     const handleDelete = (id) => {
-        Inertia.delete(`/account/${id}`);
+        confirm("apakah anda yakin ingin menghapus?") &&
+            Inertia.delete(`/account/${id}`);
     };
     return (
         <AuthenticatedLayout auth={props.auth}>
             <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 className="h3 mb-0 text-gray-800">List Ruangan</h1>
+                <h1 className="h3 mb-0 text-gray-800">List Account</h1>
                 <Link
                     href="/account/create"
                     className="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
@@ -23,7 +25,7 @@ const Index = (props) => {
             <div className="card shadow mb-4">
                 <div className="card-header py-3">
                     <h6 className="m-0 font-weight-bold text-primary">
-                        List Ruangan
+                        List Account
                     </h6>
                 </div>
                 <div className="card-body">
@@ -61,14 +63,17 @@ const Index = (props) => {
                                             <td>{d.created_at}</td>
                                             <td>
                                                 <EditButton
-                                                    href={`/ruangan/${d.id}/edit`}
+                                                    href={`/account/${d.id}/edit`}
                                                 />
-                                                <DeleteButton
-                                                    handleDelete={() =>
-                                                        handleDelete(d.id)
-                                                    }
-                                                    dataId={d.id}
-                                                />
+                                                {props.auth.user.id !==
+                                                    d.id && (
+                                                    <DeleteButton
+                                                        handleDelete={() =>
+                                                            handleDelete(d.id)
+                                                        }
+                                                        dataId={d.id}
+                                                    />
+                                                )}
                                             </td>
                                         </tr>
                                     );
