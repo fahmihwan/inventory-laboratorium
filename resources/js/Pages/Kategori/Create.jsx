@@ -10,6 +10,7 @@ const Create = (props) => {
     const { data, setData, post, processing, errors, reset } = useForm({
         nama: "",
     });
+    console.log(props);
     const handleChange = (e) => {
         setData(e.target.name, e.target.value);
     };

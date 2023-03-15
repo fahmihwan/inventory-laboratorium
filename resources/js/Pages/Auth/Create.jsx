@@ -7,6 +7,7 @@ import {
 } from "../../Layouts/AuthenticatedLayout";
 
 const Create = (props) => {
+    console.log(props);
     const { data, setData, post, processing, errors, reset } = useForm({
         nama: "",
         username: "",

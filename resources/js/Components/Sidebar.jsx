@@ -1,9 +1,10 @@
-import { Link } from "@inertiajs/inertia-react";
+import { Link, usePage } from "@inertiajs/inertia-react";
 import React, { useState } from "react";
-// import CartIcon from '../images/CartIcon.png';
-// import CartIcon from './img/logo1.png';
 import LogoInstansi from "../../../public/img/logo1.png";
 export const Sidebar = ({ auth }) => {
+    const { url, component } = usePage();
+    console.log(url);
+
     return (
         <>
             <ul
@@ -14,7 +15,7 @@ export const Sidebar = ({ auth }) => {
 
                 <hr className="sidebar-divider my-0" />
                 {/* DASHBOARD */}
-                <li className={`nav-item`}>
+                <li className={`nav-item ${url == "/dashboard" && "active"}`}>
                     <Link className="nav-link" href="/dashboard">
                         <i className="fas fa-fw fa-tachometer-alt" />
                         <span>Dashboard</span>
@@ -25,7 +26,14 @@ export const Sidebar = ({ auth }) => {
                     <>
                         <hr className="sidebar-divider" />
                         <div className="sidebar-heading">Master </div>
-                        <li className="nav-item">
+                        <li
+                            className={`nav-item ${
+                                url.startsWith("/kategori") ||
+                                url.startsWith("/ruangan")
+                                    ? "active"
+                                    : ""
+                            }`}
+                        >
                             <a
                                 className="nav-link collapsed"
                                 href="#"
@@ -60,7 +68,11 @@ export const Sidebar = ({ auth }) => {
                                 </div>
                             </div>
                         </li>
-                        <li className="nav-item">
+                        <li
+                            className={`nav-item ${
+                                url.startsWith("/perabot") && "active"
+                            }`}
+                        >
                             <Link className="nav-link" href="/perabot">
                                 <i className="fas fa-solid fa-warehouse"></i>
                                 <span>Perabot / Alat</span>
@@ -72,14 +84,25 @@ export const Sidebar = ({ auth }) => {
                 {/* TRANSAKSI */}
                 {auth.user.hak_akses !== "sarpras" && (
                     <>
-                        <li className="nav-item">
+                        <li
+                            className={`nav-item ${
+                                url.startsWith("/list_perabot") && "active"
+                            }`}
+                        >
                             <Link className="nav-link" href="/list_perabot">
                                 <i className="fas fa-solid fa-warehouse"></i>
                                 <span>List Perabot / Alat</span>
                             </Link>
                         </li>
                         <div className="sidebar-heading">Data Transaksi</div>
-                        <li className="nav-item">
+                        <li
+                            className={`nav-item ${
+                                url.startsWith("/transaksi_aset_masuk") ||
+                                url.startsWith("/detail_transaksi_masuk")
+                                    ? "active"
+                                    : ""
+                            }`}
+                        >
                             <Link
                                 className="nav-link"
                                 href="/transaksi_aset_masuk"
@@ -87,6 +110,15 @@ export const Sidebar = ({ auth }) => {
                                 <i className="fas fa-solid fa-dolly"></i>
                                 <span>Aset Masuk</span>
                             </Link>
+                        </li>
+                        <li
+                            className={`nav-item ${
+                                url.startsWith("/transaksi_aset_keluar") ||
+                                url.startsWith("/detail_transaksi_keluar")
+                                    ? "active"
+                                    : ""
+                            }`}
+                        >
                             <Link
                                 className="nav-link"
                                 href="/transaksi_aset_keluar"
@@ -103,7 +135,11 @@ export const Sidebar = ({ auth }) => {
                     <>
                         <hr className="sidebar-divider" />
                         <div className="sidebar-heading">LAPORAN </div>
-                        <li className="nav-item">
+                        <li
+                            className={`nav-item ${
+                                url.startsWith("/laporan") && "active"
+                            }`}
+                        >
                             <a
                                 className="nav-link collapsed"
                                 href="#"
@@ -176,12 +212,14 @@ const LogoDashboard = ({ LogoInstansi }) => {
     return (
         <Link
             href="/dashboard"
-            className="sidebar-brand d-flex align-items-center justify-content-center"
+            className="sidebar-brand d-flex align-items-center justify-content-center  "
         >
             {/* <img src="./img/logo1.png" alt="" style={{ width: "50px" }} /> */}
             <img src={LogoInstansi} alt="" style={{ width: "50px" }} />
 
-            <div className="sidebar-brand-text mx-3">SB Admin</div>
+            <div className="sidebar-brand-text mx-3">
+                <span style={{ fontSize: "13px" }}>ASET Laboratorium</span>
+            </div>
         </Link>
     );
 };

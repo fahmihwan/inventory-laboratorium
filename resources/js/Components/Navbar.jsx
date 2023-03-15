@@ -54,7 +54,7 @@ export const Navbar = ({ auth }) => {
                                 <>
                                     <Link
                                         className="dropdown-item"
-                                        href="account"
+                                        href="/account"
                                     >
                                         <i className="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400" />
                                         Settings

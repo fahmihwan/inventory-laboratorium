@@ -67,7 +67,7 @@ const Index = (props) => {
                                                             href={`/detail_transaksi_keluar/${d.id}/create`}
                                                             className="btn btn-sm btn-info mr-2"
                                                         >
-                                                            view
+                                                            <i className="fas fa-solid fa-dolly"></i>
                                                         </Link>
                                                         <DeleteButton
                                                             handleDelete={

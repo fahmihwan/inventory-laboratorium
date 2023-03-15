@@ -62,7 +62,7 @@ const List_and_create = (props) => {
         <AuthenticatedLayout auth={props.auth}>
             <div className="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 className="h3 mb-0 text-gray-800">
-                    Tambah Detail Tranasksi Masuk
+                    Tambah Detail Transaksi Masuk
                 </h1>
                 <Link
                     href="/transaksi_aset_masuk"

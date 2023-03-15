@@ -45,6 +45,7 @@ const Login = (props) => {
                                                 />
                                                 <div className="text-center  mt-3">
                                                     Sistem Informasi Kelola Aset
+                                                    Laboratorium
                                                 </div>
                                             </div>
                                         </div>
@@ -53,7 +54,7 @@ const Login = (props) => {
                                         <div className="p-5">
                                             <div className="text-center">
                                                 <h1 className="h4 text-gray-900 mb-4">
-                                                    Login
+                                                    Selamat Datang :)
                                                 </h1>
                                             </div>
                                             <form
@@ -83,7 +84,7 @@ const Login = (props) => {
                                                     type="submit"
                                                     className="btn btn-primary btn-user btn-block"
                                                 >
-                                                    Login
+                                                    Masuk
                                                 </button>
                                             </form>
                                             <hr />

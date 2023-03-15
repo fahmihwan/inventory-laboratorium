@@ -15,7 +15,7 @@ const Index = (props) => {
     return (
         <AuthenticatedLayout auth={props.auth}>
             <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 className="h3 mb-0 text-gray-800">List Tranasksi Masuk</h1>
+                <h1 className="h3 mb-0 text-gray-800">List Transaksi Masuk</h1>
 
                 <Link
                     href="/transaksi_aset_masuk/create"
@@ -75,7 +75,7 @@ const Index = (props) => {
                                                             href={`/detail_transaksi_masuk/${d.id}/create`}
                                                             className="btn btn-sm btn-info mr-2"
                                                         >
-                                                            view
+                                                            <i className="fas fa-solid fa-dolly"></i>
                                                         </Link>
                                                         <DeleteButton
                                                             handleDelete={
